@@ -14,7 +14,8 @@ export default function GeneratorSettings() {
         <div id={styles["settings"]}>
                 <FlexColumn>
                     <h1>Settings</h1>
-                    <Slider min={0} max={400} steps={12} name={'quality'}/>
+                    <Slider min={1024} max={4096} steps={20} name={'quality'} label={'Quality'}/>
+                    <Slider min={32} max={128} steps={10} name={'resolution'} label={'Model Resolution'}/>
                 </FlexColumn>
         </div>
     );

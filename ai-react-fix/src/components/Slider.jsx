@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const SliderBackground = styled.div`
     width: 100%;
-    height: 50%;
+    height: 5px;
     background: linear-gradient(90deg, #01735c 0%, #01735c ${props => props.middle - 1}%, var(--accent-color) ${props => props.middle}%, var(--accent-color) 100%);
     border-radius: 10px;
     position: relative;
@@ -20,6 +20,19 @@ const SliderButton = styled.div`
     left: 0;
     transform: translate(-50%, -50%);
     cursor: pointer;
+    `;
+
+const SliderDisplay = styled.div`
+    width: auto;
+    height: 30px;
+    background-color: #242424;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-left: auto;
+    margin-right: 15%;
+    padding: 0 10px;
     `;
 
 export default function Slider({
@@ -80,10 +93,10 @@ export default function Slider({
     return(
         <>
             <p>{label}</p>
-            <p>{value}</p>
+            <SliderDisplay>{value}</SliderDisplay>
             <p>{description}</p>
             <div id={`slider-${name}`} style={{position: 'relative', width: '80%', height: '20px', margin: '0 auto', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-                <SliderBackground id="test-id" middle={(value/max) * 100}/>
+                <SliderBackground id="test-id" middle={((value-min)/(max-min)) * 100}/>
                 <SliderButton id={`slider-thumb-${name}`}/>
                 <SliderButton id={`slider-controller-${name}`} draggable="true" style={{opacity: '0'}}/>
             </div>

@@ -55,7 +55,7 @@ export default function ModelViewer() {
     const plyLoader = new PLYLoader();
 
     plyLoader.load(
-      test_mesh,
+      'http://10.1.10.164:5000/models/4',
       function (geometry) {
         const material = new THREE.PointsMaterial({
           size: 0.01,

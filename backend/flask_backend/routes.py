@@ -26,5 +26,4 @@ def devepisode():
 
 @api.route("/models/<int:id>", methods=['GET'])
 def models(id):
-    response = open('flask_backend/static/models/2.ply')
-    return response, 200
+    return send_file(f'flask_backend/static/models/{id}.ply')
