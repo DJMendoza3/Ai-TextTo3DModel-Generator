@@ -1,0 +1,21 @@
+nav {
+    height: calc(100vh - 60px);
+    width: var(--nav-width);
+    background-color: #0e0e0e;
+    color: #ececec;
+    transition: width 0.5s;
+}
+nav ul {
+    width: 100%;
+}
+nav li {
+    list-style: none;
+    padding: 10px 0;
+}
+nav li:hover {
+    background-color: #3b3b6460;
+}
+nav a {
+    color: #ececec;
+    text-decoration: none;
+}

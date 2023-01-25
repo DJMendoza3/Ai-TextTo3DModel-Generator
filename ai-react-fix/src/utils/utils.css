@@ -1,0 +1,13 @@
+:root {
+    --nav-width: 250px;
+    --accent-color: #00d0a8;
+}
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+* {
+    margin: 0;
+    padding: 0;
+}

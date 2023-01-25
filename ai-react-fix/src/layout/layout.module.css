@@ -1,0 +1,10 @@
+#container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #242424;
+}
+#main {
+    height: calc(100% - 60px);
+    width: calc(100% - var(--nav-width));
+}
