@@ -3,17 +3,15 @@ import { useSelector } from "react-redux";
 import * as THREE from "three";
 import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import {FETCH_URL} from "utils/globalVariables";
 
-import test_mesh from "temp_models/mesh.ply";
-
-var container;
-var camera, scene, renderer, controls, loader;
+let container;
+let camera, scene, renderer, controls, loader, mesh, points;
 
 export default function ModelViewer() {
-    const [model, setModel] = useState();
+  let meshID = useSelector((state) => state.home.meshID);
 
-    
-
+  const meshToggle = useSelector((state) => state.home.modelDisplay);
 
   function init() {
     //Creating the container for the ply
@@ -32,7 +30,7 @@ export default function ModelViewer() {
 
     //initializing the scene
     scene = new THREE.Scene();
-    scene.add(new THREE.AxesHelper(.5));
+    scene.add(new THREE.AxesHelper(0.5));
 
     //initializing renderer
     renderer = new THREE.WebGLRenderer({ alpha: true });
@@ -55,15 +53,17 @@ export default function ModelViewer() {
     const plyLoader = new PLYLoader();
 
     plyLoader.load(
-      'http://10.1.10.164:5000/models/4',
+      FETCH_URL + "/models/" + meshID,
       function (geometry) {
         const material = new THREE.PointsMaterial({
           size: 0.01,
           vertexColors: true,
         });
-        const mesh = new THREE.Points(geometry, material);
+        mesh = new THREE.Mesh(geometry, material);
+        points = new THREE.Points(geometry, material);
         mesh.rotateX(-Math.PI / 2);
-        
+        points.rotateX(-Math.PI / 2);
+
         scene.add(mesh);
       },
       // called when loading is in progress
@@ -84,51 +84,41 @@ export default function ModelViewer() {
     controls.update();
   }
 
+  //useEffect for reloading rederer when settingsOpen or navToggle is toggled
+  useEffect(() => {
+    const element = document.getElementById("test-render");
+    //new resize observer
+    new ResizeObserver(() => {
+      if (renderer !== undefined) {
+        renderer.setSize(
+          document.getElementById("test-render").clientWidth,
+          document.getElementById("test-render").clientHeight
+        );
+        camera.aspect =
+          document.getElementById("test-render").clientWidth /
+          document.getElementById("test-render").clientHeight;
+        camera.updateProjectionMatrix();
+      }
+    }).observe(element);
+  }, []);
 
-  //useEffect for reloading rederer when settingsOpen or navToggle is toggled 
-    useEffect(() => {
-        const element = document.getElementById("test-render");
-        //new resize observer
-        new ResizeObserver(() => {
-            if (renderer !== undefined) {
-                renderer.setSize(
-                    document.getElementById("test-render").clientWidth,
-                    document.getElementById("test-render").clientHeight
-                );
-                camera.aspect = document.getElementById("test-render").clientWidth / document.getElementById("test-render").clientHeight;
-                camera.updateProjectionMatrix();
-            }
-        }).observe(element);
-    }, []);
-
-
-  //useEffect for reloading rederer when window is resized 
-    useEffect(() => {
-        const handleResize = () => {
-            renderer.setSize(
-                document.getElementById("test-render").clientWidth,
-                document.getElementById("test-render").clientHeight
-            );
-            camera.aspect = document.getElementById("test-render").clientWidth / document.getElementById("test-render").clientHeight;
-            camera.updateProjectionMatrix();
-        }
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        }
-    }, []);
-
-    //fetch GET request to get model from server and set it to model
-    useEffect(() => {
-        fetch('http://10.1.10.164:5000/models/2', {
-            method: 'GET',
-            })
-            .then(response => response.blob())
-            .then(data => {
-                setModel(data);
-            })
-            .catch(err => console.log(err));
-    }, []);
+  //useEffect for reloading rederer when window is resized
+  useEffect(() => {
+    const handleResize = () => {
+      renderer.setSize(
+        document.getElementById("test-render").clientWidth,
+        document.getElementById("test-render").clientHeight
+      );
+      camera.aspect =
+        document.getElementById("test-render").clientWidth /
+        document.getElementById("test-render").clientHeight;
+      camera.updateProjectionMatrix();
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   let rendered = false;
   useEffect(() => {
@@ -138,5 +128,19 @@ export default function ModelViewer() {
       rendered = true;
     }
   }, []);
-  return <div id="test-render" style={{ width: "100%", flex: "1", maxHeight: '80%' }}></div>;
+  useEffect(() => {
+    if (meshToggle) {
+      scene.add(mesh);
+      scene.remove(points);
+    } else {
+      scene.remove(mesh);
+      scene.add(points);
+    }
+  }, [meshToggle])
+  return (
+    <div
+      id="test-render"
+      style={{ width: "100%", flex: "1", maxHeight: "80%" }}
+    ></div>
+  );
 }

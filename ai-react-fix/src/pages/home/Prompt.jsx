@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { SET_MESHID } from "redux/slices/homeSlice";
+import { FETCH_URL } from "utils/globalVariables";
 
 import FlexRow from "layout/FlexRow";
 
@@ -7,13 +8,13 @@ import styles from './home.module.css';
 
 export default function Prompt() {
     const dispatch = useDispatch();
-    
+    //changed to websocket using flask-socketio
     function handleSubmit(e) {
         e.preventDefault();
         const data = new FormData(e.target);
         const prompt = data.get('prompt-form');
         console.log(prompt);
-        fetch('http://10.1.10.164:5000/generate', {
+        fetch(FETCH_URL + '/generate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -22,8 +23,8 @@ export default function Prompt() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            dispatch(SET_MESHID(data.id));
+            console.log(data.mesh_id);
+            dispatch(SET_MESHID(data.mesh_id));
         })
         .catch(err => console.log(err));
     }

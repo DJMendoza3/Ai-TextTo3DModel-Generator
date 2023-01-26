@@ -12,7 +12,7 @@ from point_e.util.pc_to_mesh import marching_cubes_mesh
 from point_e.models.configs import MODEL_CONFIGS, model_from_config
 from point_e.util.plotting import plot_point_cloud
 
-def generatePointCloud(user_prompt):
+def generatePointCloud(user_prompt, id):
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -52,9 +52,9 @@ def generatePointCloud(user_prompt):
         samples = x
 
     testcloud = sampler.output_to_point_clouds(samples)[0]
-    np.savez_compressed('test.npz', coords=testcloud.coords, **testcloud.channels)
+    np.savez_compressed(f'{id}.npz', coords=testcloud.coords, **testcloud.channels)
 
-def GenerateMeshFromPointCloud():
+def GenerateMeshFromPointCloud(id):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     print('creating SDF model...')
@@ -66,7 +66,7 @@ def GenerateMeshFromPointCloud():
     model.load_state_dict(load_checkpoint(name, device))
 
     # Load a point cloud we want to convert into a mesh.
-    pc = PointCloud.load('test.npz')
+    pc = PointCloud.load(f'{id}.npz')
 
     # Produce a mesh (with vertex colors)
     mesh = marching_cubes_mesh(
@@ -78,5 +78,5 @@ def GenerateMeshFromPointCloud():
     )
 
     # Write the mesh to a PLY file to import into some other program.
-    with open('flask_backend/static/models/mesh2.ply', 'wb') as f:
+    with open(f'flask_backend/static/models/{id}.ply', 'wb') as f:
         mesh.write_ply(f)

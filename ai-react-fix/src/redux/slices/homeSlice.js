@@ -5,7 +5,8 @@ const homeSlice = createSlice({
     initialState: {
         settingsOpen: true,
         prompt: '',
-        meshID: '',
+        meshID: 1688,
+        modelDisplay: true,
     },
     reducers: {
             UPDATE_PROMPT: (state, action) => {
@@ -16,9 +17,12 @@ const homeSlice = createSlice({
             },
             SET_MESHID: (state, action) => {
                 state.meshID = action.payload;
+            },
+            MODEL_DISPLAY_TOGGLE: (state) => {
+                state.modelDisplay = !state.modelDisplay;
             }
     }
 });
 
-export const {SETTINGS_TOGGLE, UPDATE_PROMPT, SET_MESHID} = homeSlice.actions;
+export const {SETTINGS_TOGGLE, UPDATE_PROMPT, SET_MESHID, MODEL_DISPLAY_TOGGLE} = homeSlice.actions;
 export default homeSlice.reducer;

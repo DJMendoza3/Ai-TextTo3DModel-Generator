@@ -1,0 +1,1 @@
+export const FETCH_URL = 'http://10.0.0.164:5000';
