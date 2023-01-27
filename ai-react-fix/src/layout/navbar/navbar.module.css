@@ -1,12 +1,15 @@
 nav {
+    position: relative;
     height: calc(100vh - 60px);
     width: var(--nav-width);
     background-color: #0e0e0e;
     color: #ececec;
     transition: width 0.5s;
+    padding-top: 100px;
 }
 nav ul {
-    width: 100%;
+    width: 90%;
+    padding-left: 10%;
 }
 nav li {
     list-style: none;
@@ -18,4 +21,20 @@ nav li:hover {
 nav a {
     color: #ececec;
     text-decoration: none;
+}
+.logo {
+    height: 80px;
+    width: 80px;
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(rgba(1,1,1,100%), rgba(1,1,1,0) 50%);
+    transition: width 0.5s, height 0.5s, top 0.5s;
+}
+.downsize {
+    width: 30px;
+    height: 30px;
+    top: 10px;
 }

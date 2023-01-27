@@ -6,7 +6,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import {FETCH_URL} from "utils/globalVariables";
 
 let container;
-let camera, scene, renderer, controls, loader, mesh, points;
+let camera, scene, renderer, controls, loader, mesh, points, wireframe;
 
 export default function ModelViewer() {
   let meshID = useSelector((state) => state.home.meshID);
@@ -60,8 +60,10 @@ export default function ModelViewer() {
           vertexColors: true,
         });
         mesh = new THREE.Mesh(geometry, material);
+        wireframe = new THREE.LineSegments(geometry);
         points = new THREE.Points(geometry, material);
         mesh.rotateX(-Math.PI / 2);
+        wireframe.rotateX(-Math.PI / 2);
         points.rotateX(-Math.PI / 2);
 
         scene.add(mesh);
@@ -140,7 +142,7 @@ export default function ModelViewer() {
   return (
     <div
       id="test-render"
-      style={{ width: "100%", flex: "1", maxHeight: "80%" }}
+      style={{ width: "99%", flex: "1", maxHeight: "80%", border: 'solid 1px var(--accent-color)' }}
     ></div>
   );
 }

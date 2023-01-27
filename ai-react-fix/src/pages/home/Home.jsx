@@ -11,6 +11,8 @@ import Prompt from "./Prompt";
 
 import styles from "./home.module.css";
 
+import settings_logo from 'images/settings.png';
+
 export default function Home() {
     const settingsOpen = useSelector(state => state.home.settingsOpen);
     const dispatch = useDispatch();
@@ -22,16 +24,16 @@ export default function Home() {
     return (
         <div id={styles["home"]}>
             <FlexRow>
-                <FlexColumn customStyle={'flex: 1'}>
+                <FlexColumn customStyle={'flex: 1; padding-left: 75px;'}>
                     <ModelViewer />
                     <Prompt />
                 </FlexColumn>
-                <ToggleButton clickHandler={Toggle}/>
+                <ToggleButton clickHandler={Toggle} customStyle={'background-color: #1c4e80; width: 35px; height: 35px; padding: 5px;'} icon={settings_logo}/>
                 {settingsOpen === true ? 
-                <Aside width={'30%'} customStyle={'transition: width 1s'}> 
+                <Aside width={'30%'} customStyle={'transition: margin-right 1s; margin-right: 0'}> 
                     <GeneratorSettings />
                 </Aside> : 
-                <Aside width={'0px'} customStyle={'transition: width 1s'}>
+                <Aside width={'30%'} customStyle={'transition: margin-right 1s; margin-right: -30%'}>
                     <GeneratorSettings />
                 </Aside>}    
             </FlexRow>

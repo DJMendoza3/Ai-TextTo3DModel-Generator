@@ -6,6 +6,9 @@ import FlexRow from "layout/FlexRow";
 
 import styles from "./features.module.css";
 
+import arrow_logo from 'images/arrows.png';
+import logo from 'images/logo.png';
+
 export default function Header() {
     const dispatch = useDispatch();
 
@@ -17,8 +20,7 @@ export default function Header() {
     return (
         <header>
             <FlexRow>
-                <ToggleButton clickHandler={Toggle}/>
-                <h1>Header</h1>
+                <ToggleButton clickHandler={Toggle} icon={arrow_logo}/>
             </FlexRow>
         </header>
     );

@@ -5,7 +5,7 @@ const homeSlice = createSlice({
     initialState: {
         settingsOpen: true,
         prompt: '',
-        meshID: 1688,
+        meshID: 4,
         modelDisplay: true,
     },
     reducers: {

@@ -1,19 +1,21 @@
 import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 
+import FlexRow from 'layout/FlexRow';
+
 const SliderBackground = styled.div`
     width: 100%;
     height: 5px;
-    background: linear-gradient(90deg, #01735c 0%, #01735c ${props => props.middle - 1}%, var(--accent-color) ${props => props.middle}%, var(--accent-color) 100%);
+    background: linear-gradient(90deg, var(--accent-color) 0%, var(--accent-color) ${props => props.middle - 1}%, #1c4e80 ${props => props.middle}%, #1c4e80 100%);
     border-radius: 10px;
     position: relative;
     `;
 
 const SliderButton = styled.div`
-    width: 20px;
-    height: 20px;
-    background-color: #01735c;
-    border 3px solid #00d0a8;
+    width: 15px;
+    height: 15px;
+    background-color: #1c4e80;
+    border 3px solid #4cb5f5;
     border-radius: 50%;
     position: absolute;
     top: 50%;
@@ -92,9 +94,11 @@ export default function Slider({
     }, []);
     return(
         <>
-            <p>{label}</p>
-            <SliderDisplay>{value}</SliderDisplay>
-            <p>{description}</p>
+            <FlexRow alignItems={'center'}>
+                <p>{label}</p>
+                <SliderDisplay>{value}</SliderDisplay>
+            </FlexRow>
+            <p style={{color: '#AAA'}}>{description}</p>
             <div id={`slider-${name}`} style={{position: 'relative', width: '80%', height: '20px', margin: '0 auto', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
                 <SliderBackground id="test-id" middle={((value-min)/(max-min)) * 100}/>
                 <SliderButton id={`slider-thumb-${name}`}/>

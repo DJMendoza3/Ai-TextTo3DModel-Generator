@@ -1,13 +1,26 @@
+import styled from "styled-components";
+
 import styles from "./components.module.css";
 
+const Button = styled.button`
+    height: 30px;
+    width: 30px;
+    margin: 20px;
+    background: none;
+    border: none;
+    border-radius: 4px;
+    ${props => props.customStyle};
+`;
+
 export default function ToggleButton({
-    icon,
+    icon = '',
     clickHandler,
+    customStyle = '',
+    backgroundColor = null,
 }) {
     return (
-            <button onClick={clickHandler} className={styles.toggle_btn}>
-                <p>test</p>
-                <img src={icon} alt="" />
-            </button>
+            <Button onClick={clickHandler} customStyle={customStyle} backgroundColor={backgroundColor}>
+                <img src={icon} alt="" className={styles['icon-img']} />
+            </Button>
     );
 }

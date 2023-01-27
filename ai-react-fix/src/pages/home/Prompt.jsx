@@ -6,9 +6,12 @@ import FlexRow from "layout/FlexRow";
 
 import styles from './home.module.css';
 
+import question_icon from 'images/question.png';
+import info_icon from 'images/info.png';
+
 export default function Prompt() {
     const dispatch = useDispatch();
-    //changed to websocket using flask-socketio
+    //changed to websocket using flask-socketio on the backend and socket.io-client on the frontend
     function handleSubmit(e) {
         e.preventDefault();
         const data = new FormData(e.target);
@@ -34,8 +37,8 @@ export default function Prompt() {
     return (
         <div id={styles["prompt"]}>
             <FlexRow>
-                <p>question</p>
-                <p>info</p>
+                <img src={question_icon} alt="" />
+                <img src={info_icon} alt="" />
             </FlexRow>
                 <form onSubmit={handleSubmit}>
                     <FlexRow gap={'15px'} alignItems={'center'}>
