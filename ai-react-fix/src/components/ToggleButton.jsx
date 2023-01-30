@@ -16,11 +16,12 @@ export default function ToggleButton({
     icon = '',
     clickHandler,
     customStyle = '',
+    name = '',
     backgroundColor = null,
 }) {
     return (
             <Button onClick={clickHandler} customStyle={customStyle} backgroundColor={backgroundColor}>
-                <img src={icon} alt="" className={styles['icon-img']} />
+                <img src={icon} alt="" className={styles['icon-img']} id={name}/>
             </Button>
     );
 }

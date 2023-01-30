@@ -6,7 +6,6 @@ nav {
     color: #ececec;
     transition: width 0.5s;
     padding-top: 100px;
-    overflow: hidden;
 }
 nav ul {
     width: 90%;

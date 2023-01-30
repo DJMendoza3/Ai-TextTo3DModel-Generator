@@ -52,9 +52,9 @@ export default function ModelViewer() {
   }
   function loadMesh() {
     //clearing the scene
-      scene.remove(mesh);
-      scene.remove(points);
-      scene.remove(wireframe);
+    scene.remove(mesh);
+    scene.remove(points);
+    scene.remove(wireframe);
     //rendering ply file
     const plyLoader = new PLYLoader();
 
@@ -139,7 +139,7 @@ export default function ModelViewer() {
     }
   }, []);
   useEffect(() => {
-    loadMesh();
+      loadMesh();
   }, [meshID]);
   useEffect(() => {
     if (meshToggle) {
@@ -153,9 +153,43 @@ export default function ModelViewer() {
   return (
     <div
       id="test-render"
-      style={{ width: "99%", flex: "1", maxHeight: "80%", border: 'solid 1px var(--accent-color)' }}
+      style={{ width: "99%", flex: "1", maxHeight: "80%", border: 'solid 1px var(--accent-color)', position: 'relative' }}
     >
-      {meshDisplay ? <div>test</div> : null}
+      {/* {!meshDisplay ? <ViewBlocker /> : null} */}
+    </div>
+  );
+}
+
+function ViewBlocker() {
+
+  const meshStatus = useSelector((state) => state.home.meshStatus);
+  return (
+    <div
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(0,0,0,0.5)",
+        zIndex: 1,
+        color: "white",
+      }}
+    >
+      <div>
+        {meshStatus.map((status) => {
+          return (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+              }}
+            >{status}</div>
+          )})}
+      </div>
     </div>
   );
 }

@@ -53,7 +53,7 @@ def generatePointCloud(user_prompt, density, id):
         samples = x
 
     testcloud = sampler.output_to_point_clouds(samples)[0]
-    np.savez_compressed(f'{id}.npz', coords=testcloud.coords, **testcloud.channels)
+    np.savez_compressed(f'flask_backend/static/point_clouds/{id}.npz', coords=testcloud.coords, **testcloud.channels)
 
 def GenerateMeshFromPointCloud(id, resolution):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -67,7 +67,7 @@ def GenerateMeshFromPointCloud(id, resolution):
     model.load_state_dict(load_checkpoint(name, device))
 
     # Load a point cloud we want to convert into a mesh.
-    pc = PointCloud.load(f'{id}.npz')
+    pc = PointCloud.load(f'flask_backend/static/point_clouds/{id}.npz')
 
     # Produce a mesh (with vertex colors)
     mesh = marching_cubes_mesh(

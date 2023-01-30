@@ -5,7 +5,7 @@ const homeSlice = createSlice({
     initialState: {
         settingsOpen: true,
         settingsDevice: 'desktop',
-        meshStatus: '',
+        meshStatus: ['generating'],
         displayMode: true,
         prompt: '',
         meshID: 0,
@@ -38,11 +38,14 @@ const homeSlice = createSlice({
             TOGGLE_DISPLAY_MODE: (state, action) => {
                 state.displayMode = action.payload;
             },
-            UPDATE_MESH_STATUS: (state, action) => {
-                state.meshStatus = action.payload;
+            CLEAR_MESH_STATUS: (state) => {
+                state.meshStatus = ['generating'];
+            },
+            ADD_MESH_STATUS: (state, action) => {
+                state.meshStatus = [...state.meshStatus, action.payload];
             }
     }
 });
 
-export const {SETTINGS_TOGGLE, UPDATE_PROMPT, UPDATE_MESH_STATUS, SET_MESHID, TOGGLE_DISPLAY_MODE, MODEL_DISPLAY_TOGGLE, UPDATE_DENSITY, UPDATE_RESOLUTION, TOGGLE_SETTINGS} = homeSlice.actions;
+export const {SETTINGS_TOGGLE, UPDATE_PROMPT, CLEAR_MESH_STATUS, SET_MESHID, ADD_MESH_STATUS, TOGGLE_DISPLAY_MODE, MODEL_DISPLAY_TOGGLE, UPDATE_DENSITY, UPDATE_RESOLUTION, TOGGLE_SETTINGS} = homeSlice.actions;
 export default homeSlice.reducer;
