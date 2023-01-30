@@ -4,9 +4,14 @@ const homeSlice = createSlice({
     name: 'home',
     initialState: {
         settingsOpen: true,
+        settingsDevice: 'desktop',
+        meshStatus: '',
+        displayMode: true,
         prompt: '',
-        meshID: 4,
+        meshID: 0,
         modelDisplay: true,
+        density: 1024,
+        resolution: 32,
     },
     reducers: {
             UPDATE_PROMPT: (state, action) => {
@@ -20,9 +25,24 @@ const homeSlice = createSlice({
             },
             MODEL_DISPLAY_TOGGLE: (state) => {
                 state.modelDisplay = !state.modelDisplay;
+            },
+            UPDATE_DENSITY: (state, action) => {
+                state.density = action.payload;
+            },
+            UPDATE_RESOLUTION: (state, action) => {
+                state.resolution = action.payload;
+            },
+            TOGGLE_SETTINGS: (state, action) => {
+                state.settingsDevice = action.payload;
+            },
+            TOGGLE_DISPLAY_MODE: (state, action) => {
+                state.displayMode = action.payload;
+            },
+            UPDATE_MESH_STATUS: (state, action) => {
+                state.meshStatus = action.payload;
             }
     }
 });
 
-export const {SETTINGS_TOGGLE, UPDATE_PROMPT, SET_MESHID, MODEL_DISPLAY_TOGGLE} = homeSlice.actions;
+export const {SETTINGS_TOGGLE, UPDATE_PROMPT, UPDATE_MESH_STATUS, SET_MESHID, TOGGLE_DISPLAY_MODE, MODEL_DISPLAY_TOGGLE, UPDATE_DENSITY, UPDATE_RESOLUTION, TOGGLE_SETTINGS} = homeSlice.actions;
 export default homeSlice.reducer;

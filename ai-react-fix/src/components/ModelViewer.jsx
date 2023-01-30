@@ -9,7 +9,8 @@ let container;
 let camera, scene, renderer, controls, loader, mesh, points, wireframe;
 
 export default function ModelViewer() {
-  let meshID = useSelector((state) => state.home.meshID);
+  const meshID = useSelector((state) => state.home.meshID);
+  const meshDisplay = useSelector((state) => state.home.displayMode);
 
   const meshToggle = useSelector((state) => state.home.modelDisplay);
 
@@ -48,7 +49,12 @@ export default function ModelViewer() {
     //initializing interactive controls
     controls = new OrbitControls(camera, renderer.domElement);
     controls.update();
-
+  }
+  function loadMesh() {
+    //clearing the scene
+      scene.remove(mesh);
+      scene.remove(points);
+      scene.remove(wireframe);
     //rendering ply file
     const plyLoader = new PLYLoader();
 
@@ -79,6 +85,8 @@ export default function ModelViewer() {
       }
     );
   }
+    
+
 
   function animate() {
     requestAnimationFrame(animate);
@@ -131,6 +139,9 @@ export default function ModelViewer() {
     }
   }, []);
   useEffect(() => {
+    loadMesh();
+  }, [meshID]);
+  useEffect(() => {
     if (meshToggle) {
       scene.add(mesh);
       scene.remove(points);
@@ -143,6 +154,8 @@ export default function ModelViewer() {
     <div
       id="test-render"
       style={{ width: "99%", flex: "1", maxHeight: "80%", border: 'solid 1px var(--accent-color)' }}
-    ></div>
+    >
+      {meshDisplay ? <div>test</div> : null}
+    </div>
   );
 }

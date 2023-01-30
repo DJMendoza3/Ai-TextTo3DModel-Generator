@@ -14,12 +14,24 @@ import support_logo from 'images/settings.png';
 
 export default function Navbar() {
     const navExpanded = useSelector(state => state.nav.expanded);
+    const width = useSelector(state => state.nav.width);
+    const minWidth = useSelector(state => state.nav.minWidth);
+
+    //set initial width of nav based on device width
+    useEffect(() => {
+        if (navExpanded === true) {
+            document.querySelector(':root').style.setProperty('--nav-width', width);
+        } else {
+            document.querySelector(':root').style.setProperty('--nav-width', minWidth);
+        }
+    }, [width]);
+
 
     useEffect(() => {
         if (navExpanded === true) {
-            document.querySelector(':root').style.setProperty('--nav-width', '250px');
+            document.querySelector(':root').style.setProperty('--nav-width', width);
         } else {
-            document.querySelector(':root').style.setProperty('--nav-width', '50px');
+            document.querySelector(':root').style.setProperty('--nav-width', minWidth);
         }
     }, [navExpanded]);
 

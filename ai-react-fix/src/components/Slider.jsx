@@ -1,4 +1,6 @@
 import {useEffect, useState} from 'react';
+import { useDispatch } from 'react-redux';
+import { UPDATE_RESOLUTION, UPDATE_DENSITY } from 'redux/slices/homeSlice';
 import styled from 'styled-components';
 
 import FlexRow from 'layout/FlexRow';
@@ -47,6 +49,7 @@ export default function Slider({
     description='',
 }) {
     const [value, setValue] = useState(min);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const slider = document.querySelector(`#slider-${name}`);
@@ -80,6 +83,11 @@ export default function Slider({
                 if (Math.abs(mousePosition - stepList[i]) < Math.abs(mousePosition - closestStep)) {
                     if(mousePosition !== 0) {
                         setValue(Math.round(min + ((max - min) / steps) * i));
+                        if(name === 'density') {
+                            dispatch(UPDATE_DENSITY(Math.round(min + ((max - min) / steps) * i)));
+                        } else if (name === 'resolution') {
+                            dispatch(UPDATE_RESOLUTION(Math.round(min + ((max - min) / steps) * i)));
+                        }
                         closestStep = stepList[i];
                     }
                 }

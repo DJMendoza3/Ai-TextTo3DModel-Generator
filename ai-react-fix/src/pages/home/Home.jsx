@@ -15,6 +15,7 @@ import settings_logo from 'images/settings.png';
 
 export default function Home() {
     const settingsOpen = useSelector(state => state.home.settingsOpen);
+    const device = useSelector(state => state.home.settingsDevice);
     const dispatch = useDispatch();
 
     const Toggle = () => {
@@ -24,16 +25,16 @@ export default function Home() {
     return (
         <div id={styles["home"]}>
             <FlexRow>
-                <FlexColumn customStyle={'flex: 1; padding-left: 75px;'}>
+                <FlexColumn customStyle={'flex: 1; padding-left: 5%;'}>
                     <ModelViewer />
                     <Prompt />
                 </FlexColumn>
                 <ToggleButton clickHandler={Toggle} customStyle={'background-color: #1c4e80; width: 35px; height: 35px; padding: 5px;'} icon={settings_logo}/>
                 {settingsOpen === true ? 
-                <Aside width={'30%'} customStyle={'transition: margin-right 1s; margin-right: 0'}> 
+                <Aside width={device === 'desktop' ? '30%' : '90%'} customStyle={'transition: margin-right 1s, width 1s; margin-right: 0'}> 
                     <GeneratorSettings />
                 </Aside> : 
-                <Aside width={'30%'} customStyle={'transition: margin-right 1s; margin-right: -30%'}>
+                <Aside width={device === 'desktop' ? '30%' : '90%'} customStyle={device === 'desktop' ? 'transition: margin-right 1s; margin-right: -30%' : 'transition: margin-right 1s; margin-right: -90%'}>
                     <GeneratorSettings />
                 </Aside>}    
             </FlexRow>

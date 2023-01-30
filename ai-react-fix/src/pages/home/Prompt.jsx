@@ -1,6 +1,8 @@
-import { useDispatch } from "react-redux";
-import { SET_MESHID } from "redux/slices/homeSlice";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { SET_MESHID, TOGGLE_DISPLAY_MODE, UPDATE_MESH_STATUS } from "redux/slices/homeSlice";
 import { FETCH_URL } from "utils/globalVariables";
+import io from "socket.io-client";
 
 import FlexRow from "layout/FlexRow";
 
@@ -9,36 +11,62 @@ import styles from './home.module.css';
 import question_icon from 'images/question.png';
 import info_icon from 'images/info.png';
 
+const socket = io(FETCH_URL, {
+    cors: {
+        origin: FETCH_URL,
+        credentials: true
+    }
+});
+
 export default function Prompt() {
     const dispatch = useDispatch();
+    const density = useSelector(state => state.home.density);
+    const resolution = useSelector(state => state.home.resolution);
     //changed to websocket using flask-socketio on the backend and socket.io-client on the frontend
     function handleSubmit(e) {
         e.preventDefault();
         const data = new FormData(e.target);
         const prompt = data.get('prompt-form');
         console.log(prompt);
-        fetch(FETCH_URL + '/generate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({prompt: prompt})
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data.mesh_id);
-            dispatch(SET_MESHID(data.mesh_id));
-        })
-        .catch(err => console.log(err));
+        let payload = JSON.stringify({prompt: prompt, density: density, resolution: resolution})
+        //websocket for sending prompt to backend
+        socket.emit('generate mesh', payload);
     }
+
+    useEffect(() => { 
+        socket.on('connect', () => {
+            console.log('connected');
+        });
+        socket.on('disconnect', () => {
+            console.log('disconnected');
+        });
+        socket.on('mesh id', (data) => {
+            dispatch(SET_MESHID(data.mesh_id));
+            console.log(data);
+        });
+        socket.on('model status', (data) => {
+            dispatch(UPDATE_MESH_STATUS(data.status));
+            console.log(data.status);
+        });
+        socket.on('display mode', (data) => {
+            dispatch(TOGGLE_DISPLAY_MODE(data.display));
+        });
+        return () => {
+            socket.off('connect');
+            socket.off('disconnect');
+            socket.off('mesh id');
+        }
+    }, []);
     
 
 
     return (
         <div id={styles["prompt"]}>
             <FlexRow>
-                <img src={question_icon} alt="" />
-                <img src={info_icon} alt="" />
+                <img src={question_icon} id={styles['question-img']} alt="" />
+                <span className={styles['tooltip']} id={styles['question-tooltip']}>Type in a full descriptive sentence, as if you were writing a caption for a photo. Include as much detail as you see fit, including colors, styles, and emotions. Then click Generate to get your image.</span>
+                <img src={info_icon} id={styles['info-img']} alt="" />
+                <span className={styles['tooltip']} id={styles['info-tooltip']}>This application uses a text to image AI model to generate meshes.</span>
             </FlexRow>
                 <form onSubmit={handleSubmit}>
                     <FlexRow gap={'15px'} alignItems={'center'}>

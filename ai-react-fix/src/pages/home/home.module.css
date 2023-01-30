@@ -19,7 +19,9 @@
 
 
 #prompt {
+    position: relative;
     padding: 20px;
+    
 }
 #prompt img {
     width: 25px;
@@ -44,4 +46,25 @@
     border: none;
     background-color: var(--accent-color);
     border-radius: 5px;
+}
+.tooltip {
+    position: absolute;
+    color: white;
+    padding: 10px;
+    bottom: 100%;
+    left: 10px;
+    max-width: 400px;
+    border-radius: 10px;
+    z-index: 3;
+    opacity: 0;
+    background-color: rgba(66, 66, 66, 0.5);
+    transition: opacity 0.5s;
+}
+#question-img:hover ~ #question-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+#info-img:hover ~ #info-tooltip {
+    visibility: visible;
+    opacity: 1;
 }

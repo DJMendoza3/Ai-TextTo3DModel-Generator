@@ -12,7 +12,7 @@ from point_e.util.pc_to_mesh import marching_cubes_mesh
 from point_e.models.configs import MODEL_CONFIGS, model_from_config
 from point_e.util.plotting import plot_point_cloud
 
-def generatePointCloud(user_prompt, id):
+def generatePointCloud(user_prompt, density, id):
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -37,6 +37,7 @@ def generatePointCloud(user_prompt, id):
         device=device,
         models=[base_model, upsampler_model],
         diffusions=[base_diffusion, upsampler_diffusion],
+        # density goes here somehow
         num_points=[1024, 4096 - 1024],
         aux_channels=['R', 'G', 'B'],
         guidance_scale=[3.0, 0.0],
@@ -54,7 +55,7 @@ def generatePointCloud(user_prompt, id):
     testcloud = sampler.output_to_point_clouds(samples)[0]
     np.savez_compressed(f'{id}.npz', coords=testcloud.coords, **testcloud.channels)
 
-def GenerateMeshFromPointCloud(id):
+def GenerateMeshFromPointCloud(id, resolution):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     print('creating SDF model...')
@@ -73,7 +74,7 @@ def GenerateMeshFromPointCloud(id):
         pc=pc,
         model=model,
         batch_size=4096,
-        grid_size=32, # increase to 128 for resolution used in evals
+        grid_size=resolution, # increase to 128 for resolution used in evals
         progress=True,
     )
 
