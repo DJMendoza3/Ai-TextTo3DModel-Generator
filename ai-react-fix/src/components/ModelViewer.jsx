@@ -155,7 +155,7 @@ export default function ModelViewer() {
       id="test-render"
       style={{ width: "99%", flex: "1", maxHeight: "80%", border: 'solid 1px var(--accent-color)', position: 'relative' }}
     >
-      {/* {!meshDisplay ? <ViewBlocker /> : null} */}
+      {!meshDisplay ? <ViewBlocker /> : null}
     </div>
   );
 }
