@@ -20,7 +20,7 @@ export default function ToggleButton({
     backgroundColor = null,
 }) {
     return (
-            <Button onClick={clickHandler} customStyle={customStyle} backgroundColor={backgroundColor}>
+            <Button onClick={clickHandler} customStyle={customStyle} backgroundColor={backgroundColor} role="button">
                 <img src={icon} alt="" className={styles['icon-img']} id={name}/>
             </Button>
     );

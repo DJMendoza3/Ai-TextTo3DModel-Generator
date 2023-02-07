@@ -7,4 +7,5 @@ describe("Toggle Button Component", () => {
     it("renders without crashing", () => {
         renderWithProviders(<ToggleButton />, store);
     });
+    
 });
