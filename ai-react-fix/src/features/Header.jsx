@@ -11,10 +11,8 @@ import logo from 'images/logo.png';
 
 export default function Header() {
     const dispatch = useDispatch();
-    const imageLeft = false;
 
     const Toggle = () => {
-        console.log('toggle');
         dispatch(NAV_TOGGLE());
         //make element with id 'arrow-toggle' invert horizontally on toggle
         if(document.getElementById('arrow-toggle').style.transform === 'scaleX(-1)')

@@ -36,7 +36,7 @@ export default function Navbar() {
     }, [navExpanded]);
 
     return (
-        <nav>
+        <nav role="navigation">
             <img src={logo} alt="" className={`${styles['logo']} ${!navExpanded ? styles["downsize"] : ''}`}/>
             <ul>
                 <NavLink name="Generate" icon={generate_logo} />

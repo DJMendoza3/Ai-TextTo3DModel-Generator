@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import * as THREE from "three";
-import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { PLYLoader } from "utils/plyLoader";
+import { OrbitControls } from "utils/orbitControls";
 import {FETCH_URL} from "utils/globalVariables";
 
 let container;
-let camera, scene, renderer, controls, loader, mesh, points, wireframe;
+let camera, scene, renderer, controls, mesh, points, wireframe;
 
 export default function ModelViewer() {
   const meshID = useSelector((state) => state.home.meshID);

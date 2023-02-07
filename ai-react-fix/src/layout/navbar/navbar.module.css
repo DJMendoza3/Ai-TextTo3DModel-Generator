@@ -6,10 +6,12 @@ nav {
     color: #ececec;
     transition: width 0.5s;
     padding-top: 100px;
+
 }
 nav ul {
     width: 90%;
     padding-left: 10%;
+    overflow: hidden;
 }
 nav li {
     list-style: none;
